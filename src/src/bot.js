@@ -1,13 +1,12 @@
-const { 
-    Client, 
-    GatewayIntentBits, 
-    ActionRowBuilder, 
-    ButtonBuilder, 
-    ButtonStyle, 
-    InteractionType 
-} = require('discord.js');
-const fs = require('fs');
-const dataPath = './src/data.json';
+const {Client, GatewayIntentBits, ActionRowBuilder, ButtonBuilder, ButtonStyle, InteractionType, Partials } = require('discord.js');
+const path = require('path');
+
+const dataPath = path.join(__dirname, 'data.json');
+
+// Crear data.json si no existe
+if (!fs.existsSync(dataPath)) {
+    fs.writeFileSync(dataPath, JSON.stringify([]));
+}
 
 const client = new Client({
     intents: [
@@ -16,7 +15,8 @@ const client = new Client({
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.DirectMessages,
         GatewayIntentBits.MessageComponents
-    ]
+    ],
+     partials: [Partials.Message, Partials.Channel, Partials.User] // Manejo de datos parciales
 });
 
 // Asegúrate de que el archivo JSON existe
