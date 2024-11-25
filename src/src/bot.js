@@ -1,5 +1,6 @@
 const {Client, GatewayIntentBits, ActionRowBuilder, ButtonBuilder, ButtonStyle, InteractionType, Partials } = require('discord.js');
-const path = require('path');
+const fs = require('fs');  
+const path = require('path');  
 
 const dataPath = path.join(__dirname, 'data.json');
 
