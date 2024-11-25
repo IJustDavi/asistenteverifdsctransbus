@@ -55,17 +55,17 @@ const userStates = {};
 // Configuración del cliente Discord
 client.on('ready', () => {
     console.log(`Bot iniciado como ${client.user.tag}`);
-    client.user.setPresence({
-        activities: [
-            {
-                status: 'online',
-                name: `y garantizando la verificación de integrantes de TransBus Discord`,
-                type: "WATCHING",
-            },
-        ],
-        status: 'online',
-    });
-    console.log('Presencia configurada correctamente');
+   // client.user.setPresence({
+    //    activities: [
+      //      {
+        //        status: 'online',
+          //      name: `y garantizando la verificación de integrantes de TransBus Discord`,
+            //    type: "WATCHING",
+            //},
+        //],
+        //status: 'online',
+   // });
+   // console.log('Presencia configurada correctamente'); - esto afecta en que no esté respondiendo?
 });
 
 client.on('interactionCreate', async (interaction) => {
