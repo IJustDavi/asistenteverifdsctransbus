@@ -17,8 +17,9 @@ const client = new Client({
         GatewayIntentBits.DirectMessages,
         GatewayIntentBits.MessageComponents
     ],
-     partials: [Partials.Message, Partials.Channel, Partials.User] // Manejo de datos parciales
+    partials: [Partials.Message, Partials.Channel, Partials.User] // Manejo de datos parciales
 });
+
 
 // Asegúrate de que el archivo JSON existe
 if (!fs.existsSync(dataPath)) fs.writeFileSync(dataPath, JSON.stringify([]));
