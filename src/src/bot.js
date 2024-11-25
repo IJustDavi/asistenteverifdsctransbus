@@ -9,6 +9,16 @@ if (!fs.existsSync(dataPath)) {
     fs.writeFileSync(dataPath, JSON.stringify([]));
 }
 
+const { Client, GatewayIntentBits, Partials } = require('discord.js');
+
+// Depuración de los intents antes de crear el cliente
+console.log("Configurando intents...");
+console.log(GatewayIntentBits.Guilds);
+console.log(GatewayIntentBits.GuildMessages);
+console.log(GatewayIntentBits.MessageContent);
+console.log(GatewayIntentBits.DirectMessages);
+console.log(GatewayIntentBits.MessageComponents);
+
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -17,8 +27,9 @@ const client = new Client({
         GatewayIntentBits.DirectMessages,
         GatewayIntentBits.MessageComponents
     ],
-    partials: [Partials.Message, Partials.Channel, Partials.User] // Manejo de datos parciales
+    partials: [Partials.Message, Partials.Channel, Partials.User]
 });
+
 
 
 // Asegúrate de que el archivo JSON existe
