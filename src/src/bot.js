@@ -51,20 +51,29 @@ if (!fs.existsSync(dataPath)) fs.writeFileSync(dataPath, JSON.stringify([]));
 // Objeto para almacenar datos temporales durante la interacción
 const userStates = {};
 
-client.on('ready', async () => {
+           // client.user.setPresence({
+           //     status: 'online',
+           //     activity: {
+           //         name: `y garantizando la verificación de integrantes de TransBus Discord`,
+          //          type: "WATCHING"
+          //      }
+           // });
+
+          //  console.log('Presencia actualizada correctamente');
+
+client.on('ready', () => {
     console.log(`Bot iniciado como ${client.user.tag}`);
-
-
-            client.user.setPresence({
+    client.user.setPresence({
+        activities: [
+            {
                 status: 'online',
-                activity: {
-                    name: `y garantizando la verificación de integrantes de TransBus Discord`,
-                    type: "WATCHING"
-                }
-            });
-
-            console.log('Presencia actualizada correctamente');
-    }
+                name: `y garantizando la verificación de integrantes de TransBus Discord`,
+                type: "WATCHING"
+            }
+        ],
+        status: 'online'
+    });
+    console.log('Presencia configurada correctamente');
 });
 
 
@@ -118,16 +127,23 @@ client.on('interactionCreate', async (interaction) => {
         const robloxID = userState.robloxID;
         const discordUsername = interaction.user.username;
 
-        // Crear URL de la imagen de avatar de Roblox
-        const robloxAvatarUrl = `https://thumbnails.roproxy.com/v1/users/avatar?userIds=${robloxID}&size=720x720&format=Png&isCircular=true`;
-
-        // Crear el Embed
-        const embed = new EmbedBuilder()
+        // Obtener la URL del avatar de Roblox
+        let avatarUrl = null;
+        try {
+            const response = await axios.get(`https://thumbnails.roproxy.com/v1/users/avatar?userIds=${robloxID}&size=720x720&format=Png&isCircular=true`);
+            avatarUrl = response.data.data[0]?.imageUrl || null;
+        } catch (error) {
+            console.error('Error al obtener el avatar de Roblox:', error);
+        }
+        
+        // Usa la URL obtenida para el embed
+        if (avatarUrl) {
+            const embed = new EmbedBuilder()
             .setAuthor({
                 name: discordUsername,
                 iconURL: interaction.user.avatarURL(),
             })
-            .setThumbnail(robloxAvatarUrl)
+            .setThumbnail(avatarUrl)
             .setColor(2908045)
             .setTitle("🦉 Reporte de Trámite Efectivo en AplicativoVerifDiscord 📝")
             .setDescription(`
