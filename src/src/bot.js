@@ -18,13 +18,15 @@ console.log(GatewayIntentBits.GuildMessages);
 console.log(GatewayIntentBits.MessageContent);
 console.log(GatewayIntentBits.DirectMessages);
 console.log(GatewayIntentBits.MessageComponents);
+console.log(GatewayIntentBits.GuildMembers);
 
 console.log("Intents que se están configurando:", [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
     GatewayIntentBits.DirectMessages,
-    GatewayIntentBits.MessageComponents
+    GatewayIntentBits.MessageComponents,
+    GatewayIntentBits.GuildMembers
 ]);
 
 
@@ -33,6 +35,7 @@ const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMembers,
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.DirectMessages,
       //  GatewayIntentBits.MessageComponents este maldito no dejaba arrancar (:
