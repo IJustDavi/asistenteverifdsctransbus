@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: aplicativo-verif-transbus-discord
+    env: node
+    region: oregon 
+    buildCommand: npm install
+    startCommand: npm run start
+    envVars:
+      - key: DISCORD_TOKEN
+        value: tutoken_discord
+      - key: PORT
+        value: 3000
