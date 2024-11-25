@@ -86,7 +86,7 @@ client.on('interactionCreate', async (interaction) => {
 
         // Responder al usuario
         await interaction.update({
-            content: `Su código PIN es: `${randomCode}`. Por favor continúa con los pasos indicados en el canal de <#1310582697055354930>, si tienes dudas o inquietudes contáctanos mediante un <#973243290474405938>. ¡Gracias por usar el bot, que tenga un feliz resto de día!`,
+            content: `Su código PIN es: **${randomCode}**. Por favor continúa con los pasos indicados en el canal de <#1310582697055354930>, si tienes dudas o inquietudes contáctanos mediante un <#973243290474405938>. ¡Gracias por usar el bot, que tenga un feliz resto de día!`,
             components: []
         });
 
