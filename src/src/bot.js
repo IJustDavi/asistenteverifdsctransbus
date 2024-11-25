@@ -9,8 +9,6 @@ if (!fs.existsSync(dataPath)) {
     fs.writeFileSync(dataPath, JSON.stringify([]));
 }
 
-const { Client, GatewayIntentBits, Partials } = require('discord.js');
-
 // Depuración de los intents antes de crear el cliente
 console.log("Configurando intents...");
 console.log(GatewayIntentBits.Guilds);
