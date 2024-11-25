@@ -64,11 +64,6 @@ client.on('ready', async () => {
             });
 
             console.log('Presencia actualizada correctamente');
-        } catch (error) {
-            console.error('Error al obtener los miembros del servidor:', error);
-        }
-    } else {
-        console.log('No se pudo encontrar el servidor con el ID proporcionado.');
     }
 });
 
