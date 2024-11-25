@@ -17,6 +17,16 @@ console.log(GatewayIntentBits.MessageContent);
 console.log(GatewayIntentBits.DirectMessages);
 console.log(GatewayIntentBits.MessageComponents);
 
+console.log("Intents que se están configurando:", [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.MessageComponents
+]);
+
+
+
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
