@@ -14,8 +14,7 @@ const client = new Client({
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.Guilds,
-        GatewayIntentBits.DirectMessages,
-        GatewayIntentBits.MessageComponents
+        GatewayIntentBits.DirectMessages,    
     ]
 });
 
@@ -27,6 +26,16 @@ const userStates = {};
 
 client.on('ready', () => {
     console.log(`Bot iniciado como ${client.user.tag}`);
+
+    targetGuild = client.guilds.cache.get('973032259579961364')
+
+    client.user.setPresence({
+        status: 'online',
+        activity: {
+            name: `y garantizando la verificación de ${targetGuild.memberCount} integrantes de TransBus Discord`,
+            type: "WATCHING"
+        }
+    });
 });
 
 client.on('messageCreate', async (message) => {
