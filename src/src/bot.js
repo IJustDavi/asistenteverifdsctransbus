@@ -3,6 +3,8 @@ const fs = require('fs');
 const path = require('path');  
 
 const dataPath = path.join(__dirname, 'data.json');
+import { APIVersion, version } from 'discord.js'
+console.log({ APIVersion, version })
 
 // Crear data.json si no existe
 if (!fs.existsSync(dataPath)) {
