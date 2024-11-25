@@ -1,3 +1,19 @@
-"scripts": {
-"start": "nodemon src/server.js & nodemon src/bot.js"
+{
+  "name": "aplicativo-verif-discord-transbus",
+  "version": "1.0.0",
+  "description": "Verificación servidor TransBus. Bot de Discord con API web para registrar códigos y IDs de Roblox.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "nodemon src/server.js & nodemon src/bot.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.11.0",
+    "dotenv": "^16.1.4",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "author": "IJustDavi",
+  "license": "GNU v2.0"
 }
