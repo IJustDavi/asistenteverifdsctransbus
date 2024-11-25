@@ -1,8 +1,9 @@
-const {Client, GatewayIntentBits, ActionRowBuilder, ButtonBuilder, ButtonStyle, InteractionType, Partials } = require('discord.js');
+const {Client, GatewayIntentBits, ActionRowBuilder, ButtonBuilder, ButtonStyle, InteractionType, Partials, EmbedBuilder } = require('discord.js');
 const fs = require('fs');  
 const path = require('path');  
 
 const dataPath = path.join(__dirname, 'data.json');
+const channelID = '1295447205024632864' //ID Canal administrativo
 
 
 // Crear data.json si no existe
@@ -34,7 +35,7 @@ const client = new Client({
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.DirectMessages,
-      //  GatewayIntentBits.MessageComponents
+      //  GatewayIntentBits.MessageComponents este maldito no dejaba arrancar (:
     ],
     partials: [Partials.Message, Partials.Channel, Partials.User]
 });
@@ -49,6 +50,16 @@ const userStates = {};
 
 client.on('ready', () => {
     console.log(`Bot iniciado como ${client.user.tag}`);
+
+    targetGuild = client.guilds.cache.get('973032259579961364')
+
+    client.user.setPresence({
+        status: 'online',
+        activity: {
+            name: `y garantizando la verificación de ${targetGuild.memberCount} integrantes de TransBus Discord`,
+            type: "WATCHING"
+        }
+    });
 });
 
 client.on('messageCreate', async (message) => {
@@ -57,7 +68,7 @@ client.on('messageCreate', async (message) => {
 
     // Comando para iniciar el proceso
     if (message.content === '!codigo') {
-        message.reply('Por favor, dime tu ID de usuario de Roblox (los números que aparecen en el link de tu perfil):');
+        message.reply('¡Hola! 👋🏻\nPor favor, dime tu ID de usuario de Roblox *(los números que aparecen en el link de tu perfil)*:');
         userStates[message.author.id] = { step: 'awaitingRobloxID' }; // Guardamos el estado del usuario
     } else if (userStates[message.author.id]?.step === 'awaitingRobloxID') {
         // Guardar el ID de Roblox proporcionado
@@ -78,7 +89,7 @@ client.on('messageCreate', async (message) => {
         );
 
         message.reply({
-            content: `Tu ID de usuario de Roblox es: **${robloxID}**. ¿Quieres que genere tu código PIN?`,
+            content: `💠 El ID de usuario de Roblox digitado es: **${robloxID}**\n📂 Verifica que corresponda a tu perfil [aquí](https://roblox.com/users/${robloxID}/profile).\n\n¿Quieres que genere tu código PIN? 🤔`,
             components: [row]
         });
     }
@@ -96,19 +107,49 @@ client.on('interactionCreate', async (interaction) => {
     }
 
     if (interaction.customId === 'confirm_yes') {
-        // Generar código PIN
-        const randomCode = Math.floor(1000 + Math.random() * 9000);
+        // Generar código PIN de 6 dígitos
+        const randomCode = Math.floor(100000 + Math.random() * 900000);
+        const robloxID = userState.robloxID;
+        const discordUsername = interaction.user.username;
+
+        // Crear URL de la imagen de avatar de Roblox
+        const robloxAvatarUrl = `https://thumbnails.roproxy.com/v1/users/avatar?userIds=${robloxID}&size=720x720&format=Png&isCircular=true`;
+
+        // Crear el Embed
+        const embed = new EmbedBuilder()
+            .setAuthor({
+                name: discordUsername,
+                iconURL: interaction.user.avatarURL(),
+            })
+            .setThumbnail(robloxAvatarUrl)
+            .setColor(2908045)
+            .setTitle("🦉 Reporte de Trámite Efectivo en AplicativoVerifDiscord 📝")
+            .setDescription(`
+                👩 **Nombre Responsable** @${discordUsername}
+                🪪 **ID Discord:** ${interaction.user.id}
+                🪪 **ID Roblox:** ${robloxID}
+                >>> 📋 **Detalle del Reporte:**
+                __Generación de PIN Verificación__ a Usuario(a) de Roblox con ID ${robloxID}, de forma SATISFACTORIA con el número __(PIN ${randomCode})__
+                [📂 Presione aquí para visitar el perfil del usuario](https://roblox.com/es/users/${robloxID}/profile)
+            `)
+            .setFooter({
+                text: "Recuerda: la información proyectada aquí tiene absoluta reserva, por lo tanto es confidencial."
+            });
+
+        // Enviar el embed al canal específico
+        const channel = await client.channels.fetch(channelID);
+        if (channel) {
+            await channel.send({ embeds: [embed] });
+        }
 
         // Guardar datos en el archivo JSON
         const existingData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-        const robloxID = userState.robloxID;
-
-        existingData.push({ user: interaction.user.username, robloxID, code: randomCode });
+        existingData.push({ user: discordUsername, robloxID, code: randomCode });
         fs.writeFileSync(dataPath, JSON.stringify(existingData, null, 2));
 
         // Responder al usuario
         await interaction.update({
-            content: `Su código PIN es: **${randomCode}**. Por favor continúa con los pasos indicados en el canal de <#1310582697055354930>, si tienes dudas o inquietudes contáctanos mediante un <#973243290474405938>. ¡Gracias por usar el bot, que tenga un feliz resto de día!`,
+            content: `Código generado satisfactoriamente ☑️\n🔢 Su código PIN es: **${randomCode}**.\n\nPor favor continúa con los pasos indicados en el canal de <#1310582697055354930>, si tienes dudas o inquietudes contáctanos mediante un <#973243290474405938>.\n\n__¡Gracias por usar el bot, que tenga un feliz resto de día!__ 😄`,
             components: []
         });
 
@@ -116,7 +157,7 @@ client.on('interactionCreate', async (interaction) => {
         delete userStates[userId];
     } else if (interaction.customId === 'confirm_no') {
         await interaction.update({
-            content: 'Proceso cancelado, si tienes dudas o inquietudes contáctanos mediante un <#973243290474405938>. ¡Puedes intentarlo de nuevo cuando quieras!',
+            content: '❌ Proceso cancelado, si tienes dudas o inquietudes contáctanos mediante un <#973243290474405938>. ¡Puedes intentarlo de nuevo cuando quieras!',
             components: []
         });
 
