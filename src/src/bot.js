@@ -81,6 +81,7 @@ client.on('interactionCreate', async (interaction) => {
 
 
 client.on('messageCreate', async (message) => {
+    console.log(`Mensaje recibido de ${message.author.username}: ${message.content}`);
     // Ignorar mensajes del bot
     if (message.author.bot) return;
 
