@@ -11,9 +11,9 @@ const dataPath = './src/data.json';
 
 const client = new Client({
     intents: [
+        GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
-        GatewayIntentBits.Guilds,
         GatewayIntentBits.DirectMessages,
         GatewayIntentBits.MessageComponents
     ]
