@@ -186,7 +186,7 @@ client.on('interactionCreate', async (interaction) => {
         // Limpiar el estado del usuario
         delete userStates[userId];
     }
-});
+};
 
 // Inicia sesión en Discord
 client.login(process.env.DISCORD_TOKEN);
