@@ -55,31 +55,23 @@ const userStates = {};
 // Configuración del cliente Discord
 client.on('ready', () => {
     console.log(`Bot iniciado como ${client.user.tag}`);
-   // client.user.setPresence({
-    //    activities: [
-      //      {
-        //        status: 'online',
-          //      name: `y garantizando la verificación de integrantes de TransBus Discord`,
-            //    type: "WATCHING",
-            //},
-        //],
-        //status: 'online',
-   // });
-   // console.log('Presencia configurada correctamente'); - esto afecta en que no esté respondiendo?
-});
-
-client.on('interactionCreate', async (interaction) => {
-    if (!interaction.isButton()) return;
-
-    const userId = interaction.user.id;
-    const userState = userStates[userId];
-
-    if (!userState || userState.step !== 'confirmGeneration') {
-        interaction.reply({ content: 'Esta interacción no está asociada contigo.', ephemeral: true });
-        return;
+   // Intentar establecer la presencia del bot
+    try {
+        await client.user.setPresence({
+            activities: [
+                {
+                    status: 'online',
+                    name: 'y garantizando la verificación de integrantes de TransBus Discord',
+                    type: "WATCHING",
+                },
+            ],
+            status: 'online',
+        });
+        console.log('Presencia configurada correctamente');
+    } catch (error) {
+        console.error('Error al establecer la presencia:', error);
     }
-
-
+});
 client.on('messageCreate', async (message) => {
     console.log(`Mensaje recibido de ${message.author.username}: ${message.content}`);
     // Ignorar mensajes del bot
@@ -113,6 +105,18 @@ client.on('messageCreate', async (message) => {
         });
     }
 });
+
+client.on('interactionCreate', async (interaction) => {
+    if (!interaction.isButton()) return;
+
+    const userId = interaction.user.id;
+    const userState = userStates[userId];
+
+    if (!userState || userState.step !== 'confirmGeneration') {
+        interaction.reply({ content: 'Esta interacción no está asociada contigo.', ephemeral: true });
+        return;
+    }
+
     
     if (interaction.customId === 'confirm_yes') {
         // Lógica para confirmación positiva
