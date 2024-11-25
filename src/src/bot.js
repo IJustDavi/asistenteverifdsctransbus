@@ -54,16 +54,11 @@ const userStates = {};
 client.on('ready', async () => {
     console.log(`Bot iniciado como ${client.user.tag}`);
 
-    const targetGuild = client.guilds.cache.get('973032259579961364');
-    
-    if (targetGuild) {
-        try {
-            await targetGuild.members.fetch();  // Asegúrate de que los miembros están cargados
 
             client.user.setPresence({
                 status: 'online',
                 activity: {
-                    name: `y garantizando la verificación de ${targetGuild.memberCount} integrantes de TransBus Discord`,
+                    name: `y garantizando la verificación de integrantes de TransBus Discord`,
                     type: "WATCHING"
                 }
             });
