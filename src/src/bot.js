@@ -48,19 +48,32 @@ if (!fs.existsSync(dataPath)) fs.writeFileSync(dataPath, JSON.stringify([]));
 // Objeto para almacenar datos temporales durante la interacción
 const userStates = {};
 
-client.on('ready', () => {
+client.on('ready', async () => {
     console.log(`Bot iniciado como ${client.user.tag}`);
 
-    targetGuild = client.guilds.cache.get('973032259579961364')
+    const targetGuild = client.guilds.cache.get('973032259579961364');
+    
+    if (targetGuild) {
+        try {
+            await targetGuild.members.fetch();  // Asegúrate de que los miembros están cargados
 
-    client.user.setPresence({
-        status: 'online',
-        activity: {
-            name: `y garantizando la verificación de ${targetGuild.memberCount} integrantes de TransBus Discord`,
-            type: "WATCHING"
+            client.user.setPresence({
+                status: 'online',
+                activity: {
+                    name: `y garantizando la verificación de ${targetGuild.memberCount} integrantes de TransBus Discord`,
+                    type: "WATCHING"
+                }
+            });
+
+            console.log('Presencia actualizada correctamente');
+        } catch (error) {
+            console.error('Error al obtener los miembros del servidor:', error);
         }
-    });
+    } else {
+        console.log('No se pudo encontrar el servidor con el ID proporcionado.');
+    }
 });
+
 
 client.on('messageCreate', async (message) => {
     // Ignorar mensajes del bot
