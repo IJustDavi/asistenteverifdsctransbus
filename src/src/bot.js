@@ -53,9 +53,10 @@ if (!fs.existsSync(dataPath)) fs.writeFileSync(dataPath, JSON.stringify([]));
 const userStates = {};
 
 // Configuración del cliente Discord
-client.on('ready', () => {
+client.on('ready', async () => {
     console.log(`Bot iniciado como ${client.user.tag}`);
-   // Intentar establecer la presencia del bot
+
+    // Intentar establecer la presencia del bot
     try {
         await client.user.setPresence({
             activities: [
@@ -72,6 +73,8 @@ client.on('ready', () => {
         console.error('Error al establecer la presencia:', error);
     }
 });
+
+
 client.on('messageCreate', async (message) => {
     console.log(`Mensaje recibido de ${message.author.username}: ${message.content}`);
     // Ignorar mensajes del bot
