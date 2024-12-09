@@ -49,35 +49,7 @@
   
    <p><a href="https://github.com/IJustDavi/asistenteverifdsctransbus/">¿Quieres tu propio bot? Consulta el repositorio aquí</a>
 </footer>
-<script>
-        // Contador 15 min
-        const initialTime = 15 * 60;
-        const timerElement = document.getElementById('contador');
 
-        function startCountdown(duration) {
-            const endTime = Date.now() + duration * 1000; 
-
-            function updateTimer() {
-                const currentTime = Date.now();
-                const timeLeft = Math.max(0, Math.floor((endTime - currentTime) / 1000)); 
-
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-
-                timerElement.textContent = "Tienes ${minutes}:${seconds.toString().padStart(2, '0')} para verificarte, si se pasa el tiempo debes volver a empezar.";
-
-                if (timeLeft > 0) {
-                    setTimeout(updateTimer, 1000);
-                } else {
-                    timerElement.textContent = "Expiró el tiempo, por favor refresca esta página para volver a empezar.";
-                }
-            }
-
-            updateTimer();
-        }
-
-        startCountdown(initialTime);
-    </script>
 </body>
 
 </html>
